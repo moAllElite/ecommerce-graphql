@@ -7,8 +7,10 @@ import java.util.List;
 
 public interface IProduitService {
 
-     List<ProduitRequestDto> findAll();
-     ProduitRequestDto findById(String  id);
+     List<Produit> findAll();
+     Produit findById(String  id);
      Produit save (ProduitRequestDto produitRequestDto);
-     List<ProduitRequestDto> findAllByIdCategory(Long id);
+     List<Produit> findAllByIdCategory(Long id);
+     Produit update(String id,ProduitRequestDto produitRequestDto);
+     void delete(String id);
 }

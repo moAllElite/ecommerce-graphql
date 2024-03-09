@@ -11,7 +11,7 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+  #enable graphQL for testing
   graphql:
     graphiql:
       enabled: true
-#enable graphQL for testing

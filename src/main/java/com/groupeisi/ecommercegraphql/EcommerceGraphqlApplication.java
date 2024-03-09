@@ -7,7 +7,6 @@ import com.groupeisi.ecommercegraphql.repository.ProduitRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 import java.util.List;
 import java.util.Random;
@@ -21,7 +20,7 @@ public class EcommerceGraphqlApplication {
     }
     private final Random random = new Random();
 
-    //@Bean
+  //  @Bean
     CommandLineRunner commandLineRunner(CategorieRepository categorieRepository, ProduitRepository  produitRepository) {
         return args -> {
 

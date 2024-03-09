@@ -7,9 +7,12 @@ type Query {
 }
 type Mutation {
     saveProduct(produit:ProduitRequest):Produit
+    updateProduct(id:String,produit:ProduitRequest):Produit
+    deleteProduct(id:String):String
     saveNewCategory(categorie:CategoryRequest):Categorie
-    updateCategory(id:ID,categorie:CategoryRequest):Categorie
+    updateCategory(id:Float,categorie:CategoryRequest):Categorie
     deleteCategory(id:ID):Categorie
+
 }
 
 
@@ -39,7 +42,7 @@ input ProduitRequest{
     quantite:Float
     selectionne:Boolean
     photo:String
-    categorieId:Float
+    categoryId:Float
 }
 
 input CategoryRequest{

@@ -7,8 +7,6 @@ import com.groupeisi.ecommercegraphql.service.ICategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 @RequiredArgsConstructor
 @Component
 public class ProduitMapperImpl implements ProduitMapper {
@@ -34,16 +32,15 @@ public class ProduitMapperImpl implements ProduitMapper {
         produit.setIdProduit(produitRequestDto.idProduit());
         produit.setPrix(produitRequestDto.prix());
         //get category
-        Categorie   category=   categorieMapper.toCategorieEntity(
-                categoryService.findByIdCategory(produitRequestDto.categorieId())
+        Categorie   category = categorieMapper.toCategorieEntity(
+                categoryService.findByIdCategory(produitRequestDto.categoryId())
         );
         produit.setCategorie(category);
         produit.setPhoto(produitRequestDto.photo());
         produit.setDescription(produitRequestDto.description());
         produit.setDesignation(produitRequestDto.designation());
         produit.setPrix(produitRequestDto.prix());
-        produit.setIdProduit(UUID.randomUUID().toString());
-
+        produit.setIdProduit(produitRequestDto.idProduit());
         return produit;
     }
 }

@@ -15,16 +15,16 @@ import java.util.List;
 public class ProduitGraphQLController {
     private final IProduitService produitService;
     @QueryMapping(name = "listeProduits")
-    public List<ProduitRequestDto> listeProduits() {
+    public List<Produit> listeProduits() {
         return produitService.findAll();
     }
     @QueryMapping
-    public ProduitRequestDto productById(@Argument String id){
+    public Produit productById(@Argument String id){
         return produitService.findById(id);
     }
 
     @QueryMapping
-    public List<ProduitRequestDto> listProductsByIdCatgory(@Argument Long id){
+    public List<Produit> listProductsByIdCatgory(@Argument Long id){
         return produitService.findAllByIdCategory(id);
     }
 
@@ -33,5 +33,12 @@ public class ProduitGraphQLController {
         return produitService.save(produit);
     }
 
-
+    @MutationMapping
+    public Produit updateProduct(@Argument String id, @Argument ProduitRequestDto produit) {
+        return produitService.update(id, produit);
+    }
+    @MutationMapping
+    public void deleteProduct(@Argument String id) {
+            produitService.delete(id);
+    }
 }

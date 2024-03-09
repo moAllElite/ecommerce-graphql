@@ -10,7 +10,7 @@ public record ProduitRequestDto(
         boolean selectionne,
          String photo,
 
-        Long categorieId
+        Long categoryId
 ) {
-   
+
 }
