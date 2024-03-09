@@ -1,2 +1,14 @@
-package com.groupeisi.ecommercegraphql.service;public class ProduitService {
+package com.groupeisi.ecommercegraphql.service;
+
+
+import com.groupeisi.ecommercegraphql.dto.ProduitRequestDto;
+import com.groupeisi.ecommercegraphql.entities.Produit;
+import java.util.List;
+
+public interface IProduitService {
+
+     List<Produit> findAll();
+     Produit findById(String  id);
+     Produit save (ProduitRequestDto produitRequestDto);
+     List<Produit> findAllByIdCategory(Long id);
 }

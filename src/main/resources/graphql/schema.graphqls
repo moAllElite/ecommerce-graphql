@@ -1,0 +1,48 @@
+type Query {
+    listeProduits:[Produit],
+    productById(id:String):Produit
+    listProductsByIdCatgory(id:Float):[Produit]
+    categoryById(id:Float):Categorie
+    categorieList:[Categorie]
+}
+type Mutation {
+    saveProduct(produit:ProduitRequest):Produit
+    saveNewCategory(categorie:CategoryRequest):Categorie
+    updateCategory(id:ID,categorie:CategoryRequest):Categorie
+    deleteCategory(id:ID):Categorie
+}
+
+
+type Produit{
+    idProduit: String
+    designation:String
+    description:String
+    prix:Float
+    quantite:Float
+    selectionne:Boolean
+    photo:String
+    categorie:Categorie
+}
+
+type Categorie{
+    id:Float
+    nom:String
+    photo:String
+    description:String
+    produits:[Produit]
+}
+
+input ProduitRequest{
+    designation:String
+    description:String
+    prix:Float
+    quantite:Float
+    selectionne:Boolean
+    photo:String
+}
+
+input CategoryRequest{
+    nom:String
+    photo:String
+    description:String
+}
