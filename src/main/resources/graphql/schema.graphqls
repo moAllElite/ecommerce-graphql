@@ -39,6 +39,7 @@ input ProduitRequest{
     quantite:Float
     selectionne:Boolean
     photo:String
+    categorieId:Float
 }
 
 input CategoryRequest{

@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface IProduitService {
 
-     List<Produit> findAll();
-     Produit findById(String  id);
+     List<ProduitRequestDto> findAll();
+     ProduitRequestDto findById(String  id);
      Produit save (ProduitRequestDto produitRequestDto);
-     List<Produit> findAllByIdCategory(Long id);
+     List<ProduitRequestDto> findAllByIdCategory(Long id);
 }
