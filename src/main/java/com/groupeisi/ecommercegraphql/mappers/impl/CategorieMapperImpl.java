@@ -1,7 +1,8 @@
-package com.groupeisi.ecommercegraphql.mappers;
+package com.groupeisi.ecommercegraphql.mappers.impl;
 
 import com.groupeisi.ecommercegraphql.dto.CategorieRequestDto;
 import com.groupeisi.ecommercegraphql.entities.Categorie;
+import com.groupeisi.ecommercegraphql.mappers.CategorieMapper;
 import org.springframework.stereotype.Component;
 
 @Component

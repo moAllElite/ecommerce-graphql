@@ -1,8 +1,10 @@
-package com.groupeisi.ecommercegraphql.mappers;
+package com.groupeisi.ecommercegraphql.mappers.impl;
 
 import com.groupeisi.ecommercegraphql.dto.ProduitRequestDto;
 import com.groupeisi.ecommercegraphql.entities.Categorie;
 import com.groupeisi.ecommercegraphql.entities.Produit;
+import com.groupeisi.ecommercegraphql.mappers.CategorieMapper;
+import com.groupeisi.ecommercegraphql.mappers.ProduitMapper;
 import com.groupeisi.ecommercegraphql.service.ICategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -11,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProduitMapperImpl implements ProduitMapper {
     private final ICategoryService categoryService;
-    private final CategorieMapper   categorieMapper;
+    private final CategorieMapper categorieMapper;
     @Override
     public ProduitRequestDto toProduitRequestDto(Produit produit) {
         return     new ProduitRequestDto(

@@ -1,7 +1,8 @@
 package com.groupeisi.ecommercegraphql.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.*;;
+import java.util.List;
 
 @Entity
 @Getter
@@ -9,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class Produit {
+public class Produit  {
     @Id
     private String  idProduit;
     private String designation;
@@ -19,5 +20,8 @@ public class Produit {
     private boolean selectionne;
     private  String photo;
     @ManyToOne
+    @JoinColumn(name = "categorie_id")
     private Categorie categorie;
+    @OneToMany(mappedBy = "produit")
+    private List<LigneCommande> ligneCommandes;
 }

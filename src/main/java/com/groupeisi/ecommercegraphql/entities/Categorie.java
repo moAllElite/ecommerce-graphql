@@ -18,6 +18,6 @@ public class Categorie {
     private String nom;
     private String photo;
     private String description;
-    @OneToMany(mappedBy = "categorie",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "categorie",fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.DETACH})
     private List<Produit> produits;
 }

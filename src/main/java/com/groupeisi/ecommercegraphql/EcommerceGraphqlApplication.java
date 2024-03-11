@@ -18,6 +18,9 @@ public class EcommerceGraphqlApplication {
     public static void main(String[] args) {
         SpringApplication.run(EcommerceGraphqlApplication.class, args);
     }
+
+
+
     private final Random random = new Random();
 
   //  @Bean
