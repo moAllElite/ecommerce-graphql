@@ -9,7 +9,7 @@ public interface IClientService {
 
     Client save(ClientRequestDto clientRequestDto);
     Client findById(Long id);
-    Client update(Long id,ClientRequestDto clientRequestDto);
+    Client update(Long id, ClientRequestDto clientRequestDto);
 
     void delete(Long id);
     List<Client> findAll();
