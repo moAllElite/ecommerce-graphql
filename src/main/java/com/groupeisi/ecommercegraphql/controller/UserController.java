@@ -5,15 +5,19 @@ import com.groupeisi.ecommercegraphql.dto.RoleDto;
 import com.groupeisi.ecommercegraphql.dto.UserDto;
 import com.groupeisi.ecommercegraphql.entities.TypeDeRole;
 import com.groupeisi.ecommercegraphql.service.IUserService;
+import jakarta.mail.IllegalWriteException;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.IllegalFormatException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -27,18 +31,19 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/register")
-    public void register(@RequestBody UserDto userDto)  {
-        // vérifie si le mail est valide
-        if(!userDto.getEmail().matches(EMAILREGEX)){
-            throw new EntityNotFoundException(
-                    String.format("Email %s pourvue est invalide",userDto.getEmail()));
+    public void register(@Valid @RequestBody UserDto userDto) throws IllegalWriteException {
+        // vérifie si le mail est invalide
+        if(!userDto.getEmail().matches(EMAILREGEX)) {
+            throw  new IllegalArgumentException(
+                    "Email fourni est  invalide"
+            );
         }
         // vérifie si l'email existe
-       Optional  <UserDto> userExist = userService.findByEmail(userDto.getEmail());
+        Optional  <UserDto> userExist = userService.findByEmail(userDto.getEmail());
         if(userExist.isPresent()){
-         throw new EntityExistsException(
-                 String.format("Email %s est déjà pourvu ",userDto.getEmail())
-         );
+            throw new EntityExistsException(
+                    String.format("Email %s est déjà pourvu ",userDto.getEmail())
+            );
         }
         // crypter le mot de passe
         String pwdBcrypt = this.passwordEncoder.encode(userDto.getPassword());
