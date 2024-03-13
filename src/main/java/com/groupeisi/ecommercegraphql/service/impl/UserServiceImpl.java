@@ -2,6 +2,7 @@ package com.groupeisi.ecommercegraphql.service.impl;
 
 import com.groupeisi.ecommercegraphql.dto.RoleDto;
 import com.groupeisi.ecommercegraphql.dto.UserDto;
+import com.groupeisi.ecommercegraphql.dto.ValidationDto;
 import com.groupeisi.ecommercegraphql.entities.TypeDeRole;
 import com.groupeisi.ecommercegraphql.entities.User;
 import com.groupeisi.ecommercegraphql.mappers.UserMapper;
@@ -9,10 +10,13 @@ import com.groupeisi.ecommercegraphql.repository.UserRepository;
 import com.groupeisi.ecommercegraphql.service.IUserService;
 import com.groupeisi.ecommercegraphql.service.ValidationService;
 import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -67,5 +71,31 @@ public class UserServiceImpl implements IUserService {
     public Optional<UserDto> findByEmail(String email) {
         return userRepository.findByEmail(email)
                 .map(userMapper::toUserDto);
+    }
+
+    /**
+     * @param id as Long
+     * @return Optional<UserDto>
+     */
+    @Override
+    public Optional<UserDto> findById(Long id) {
+        return userRepository.findById(id)
+                .map(userMapper::toUserDto);
+    }
+
+    /**
+     * @param activation Map<String,String>
+     */
+    @Override
+    public void activation(Map<String, String> activation) {
+        ValidationDto validationDto = this.validationService.getValidationByCode(activation.get("code"));
+        if(Instant.now().isAfter(validationDto.getExpiration())) {
+            throw new IllegalArgumentException("Votre  code a expiré");
+        }
+       UserDto userDto =  this.userRepository.findById(validationDto.getUserId())
+                .map(userMapper::toUserDto)
+                .orElseThrow(()-> new EntityNotFoundException("Utilisateur  introuvable"));
+        userDto.setActived(true);
+        this.userRepository.save(userMapper.toUserEntity(userDto));
     }
 }

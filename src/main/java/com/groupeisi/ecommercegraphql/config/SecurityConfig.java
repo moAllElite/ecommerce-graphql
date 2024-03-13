@@ -10,8 +10,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static org.springframework.http.HttpMethod.POST;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -22,10 +20,12 @@ public class SecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         auth ->
-                            auth.requestMatchers(POST,"/register","login")
-                                    .permitAll()
-                                    .anyRequest()
-                                    .authenticated()
+                                auth
+                                        .requestMatchers("/register").permitAll()
+                                        .requestMatchers("/activation").permitAll()
+                                        .requestMatchers("/home").permitAll()
+                                        .anyRequest()
+                                        .authenticated()
                 )
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(Customizer.withDefaults())

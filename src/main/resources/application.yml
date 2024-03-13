@@ -4,7 +4,6 @@ spring:
     password: passer123
     url:  jdbc:postgresql://localhost:5432/ecommerce-grapqhl
     driver-class-name: org.postgresql.Driver
-
   jpa:
     database: postgresql
     generate-ddl: true
@@ -12,7 +11,15 @@ spring:
     hibernate:
       ddl-auto: create-drop
   #enable graphQL for testing
+
   graphql:
     graphiql:
       enabled: true
-
+  mail:
+    host: localhost
+    port: 9025
+    protocol: smtp
+  security:
+    user:
+      name: mouhamedniang@groupeisi.com
+      password: collision@24

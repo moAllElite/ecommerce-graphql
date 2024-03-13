@@ -1,10 +1,7 @@
 package com.groupeisi.ecommercegraphql.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +9,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 
-
+@Builder
 @Entity
 @Getter
 @Setter
@@ -24,8 +21,9 @@ public class User  implements UserDetails , Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private  String email;
+    private  String nom;
     private  String password;
-    private boolean actived = false;
+    private boolean actived ;
     @OneToOne(cascade = {CascadeType.ALL})
     private  Role role;
 
