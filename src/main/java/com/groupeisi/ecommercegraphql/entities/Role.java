@@ -1,10 +1,7 @@
 package com.groupeisi.ecommercegraphql.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -12,6 +9,7 @@ import java.io.Serializable;
 @Table(name = "role")
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Role  implements Serializable {
@@ -20,4 +18,6 @@ public class Role  implements Serializable {
     private Long id;
     @Enumerated(EnumType.STRING)
     private TypeDeRole libelle;
+    @OneToOne(mappedBy = "role")
+    private User user;
 }

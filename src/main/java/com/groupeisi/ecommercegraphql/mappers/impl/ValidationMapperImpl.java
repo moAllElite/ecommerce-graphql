@@ -25,7 +25,7 @@ public class ValidationMapperImpl implements ValidationMapper {
         );
         validation.setUser(userExist);
         validation.setCreation(validationDto.getCreation());
-        validation.setActivation(validationDto.getActivation());
+        validation.setActivation(validationDto.getCreation());
         return validation;
     }
 
@@ -35,7 +35,6 @@ public class ValidationMapperImpl implements ValidationMapper {
         validationDto.setCode(validation.getCode());
         validationDto.setExpiration(validation.getExpiration());
         validationDto.setCreation(validation.getCreation());
-        validationDto.setActivation(validation.getActivation());
         UserDto userDto = userMapper.toUserDto(validation.getUser());
         validationDto.setUserId(userDto.getId());
         return validationDto;

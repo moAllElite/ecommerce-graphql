@@ -2,6 +2,8 @@ package com.groupeisi.ecommercegraphql.controller;
 
 
 import com.groupeisi.ecommercegraphql.dto.UserDto;
+import com.groupeisi.ecommercegraphql.entities.TypeDeRole;
+import com.groupeisi.ecommercegraphql.entities.User;
 import com.groupeisi.ecommercegraphql.service.IUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +24,12 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/register")
-    public void register(@Valid @RequestBody UserDto userDto) {
-        userService.save(userDto);
+    public void register(
+            @RequestParam(defaultValue ="USER") TypeDeRole roleName,
+            @Valid @RequestBody UserDto userDto
+    ) {
+         userService.save(roleName,userDto);
+
         log.info("register succesfull");
     }
     @PostMapping(path = "/activation")

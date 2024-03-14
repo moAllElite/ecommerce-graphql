@@ -10,9 +10,10 @@ import java.time.Instant;
 @NoArgsConstructor
 @Getter @Setter
 public class ValidationDto {
+    private Long id;
     private Instant creation;
     private Instant expiration;
-    private String activation;
+    private Instant activation;
     private String code;
     private Long userId;
 }

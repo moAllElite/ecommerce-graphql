@@ -5,11 +5,13 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 
-@Builder
+
 @Entity
 @Getter
 @Setter
@@ -24,7 +26,9 @@ public class User  implements UserDetails , Serializable {
     private  String nom;
     private  String password;
     private boolean actived ;
-    @OneToOne(cascade = {CascadeType.ALL})
+    // Unidirectional
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "role_id")
     private  Role role;
 
     @Override
