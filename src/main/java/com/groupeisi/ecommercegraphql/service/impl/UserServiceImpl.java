@@ -10,10 +10,15 @@ import com.groupeisi.ecommercegraphql.mappers.UserMapper;
 import com.groupeisi.ecommercegraphql.repository.UserRepository;
 import com.groupeisi.ecommercegraphql.service.IUserService;
 import com.groupeisi.ecommercegraphql.service.ValidationService;
+import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.time.Instant;
@@ -22,15 +27,15 @@ import java.util.Optional;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements IUserService , UserDetailsService {
     private static final String EMAILREGEX= "^(.+)@(.+)$";
-    private final BCryptPasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
-    private final UserMapper userMapper;
-    private final RoleMapper roleMapper;
-    private final ValidationService validationService;
+    private  BCryptPasswordEncoder passwordEncoder;
+    private  UserRepository userRepository;
+    private  UserMapper userMapper;
+    private  RoleMapper roleMapper;
+    private  ValidationService validationService;
     @Override
-    public Long save(TypeDeRole roleLibelle,UserDto userDto) {
+    public Long save(TypeDeRole roleLibelle,UserDto userDto) throws MessagingException {
         // vérifie si le mail est invalide
         if(!userDto.getEmail().matches(EMAILREGEX)) {
             throw  new IllegalArgumentException(
@@ -55,6 +60,7 @@ public class UserServiceImpl implements IUserService {
         roleDto.setLibelle(roleLibelle);
         User   obtainUser = userMapper.toUserEntity(userDto);
         obtainUser.setRole(roleMapper.toRoleEntity(roleDto));
+        log.info("user to save {}",obtainUser.getRole().getLibelle());
         User user  =  this.userRepository.save(obtainUser);
         validationService.saveValidate(userMapper.toUserDto(user));
         return user.getId();
@@ -93,10 +99,27 @@ public class UserServiceImpl implements IUserService {
         if(Instant.now().isAfter(validationDto.getExpiration())) {
             throw new IllegalArgumentException("Votre  code a expiré");
         }
-        UserDto userDto =  this.userRepository.findById(validationDto.getUserId())
-                .map(userMapper::toUserDto)
+        User user =  this.userRepository.findById(validationDto.getUserId())
                 .orElseThrow(()-> new EntityNotFoundException("Utilisateur  introuvable"));
-        userDto.setActived(true);
-        this.userRepository.save(userMapper.toUserEntity(userDto));
+        user.setActived(true);
+        this.userRepository.save(user);
+    }
+
+    /**
+     * Locates the user based on the username. In the actual implementation, the search
+     * may possibly be case sensitive, or case insensitive depending on how the
+     * implementation instance is configured. In this case, the <code>UserDetails</code>
+     * object that comes back may have a username that is of a different case than what
+     * was actually requested.
+     *
+     * @param username the username identifying the user whose data is required.
+     * @return a fully populated user record (never <code>null</code>)
+     * @throws UsernameNotFoundException if the user could not be found or the user has no
+     *                                   GrantedAuthority
+     */
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return this.userRepository.findByEmail(username)
+                .orElseThrow(()-> new UsernameNotFoundException(String.format("Utilisateur avec l'email %s introuvable",username)));
     }
 }

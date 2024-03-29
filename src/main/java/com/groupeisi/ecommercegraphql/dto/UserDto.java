@@ -1,4 +1,5 @@
 package com.groupeisi.ecommercegraphql.dto;
+import com.groupeisi.ecommercegraphql.entities.Role;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
@@ -11,6 +12,6 @@ public class UserDto{
        private  String nom;
        private String password;
        private Boolean actived;
-       private RoleDto roleDto;
+       private Role roleDto;
 
 }

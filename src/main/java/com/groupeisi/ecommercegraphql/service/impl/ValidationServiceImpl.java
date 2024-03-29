@@ -6,6 +6,7 @@ import com.groupeisi.ecommercegraphql.mappers.ValidationMapper;
 import com.groupeisi.ecommercegraphql.repository.ValidationRepository;
 import com.groupeisi.ecommercegraphql.service.INotificationService;
 import com.groupeisi.ecommercegraphql.service.ValidationService;
+import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class ValidationServiceImpl implements ValidationService {
     private static final Integer EXPIRATION_TIME = 10;
     private static final Random  random = new Random();
     @Override
-    public void saveValidate(UserDto userDto) {
+    public void saveValidate(UserDto userDto) throws MessagingException {
 
         ValidationDto validationDto = new ValidationDto();
         validationDto.setUserId(userDto.getId());

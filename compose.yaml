@@ -24,14 +24,6 @@ services:
       - PGADMIN_LISTEN_PORT=5050
     ports:
       - "5050:5050"
-  smtp4dev:
-    image: rnwood/smtp4dev
-    restart: always
-    ports:
-      # web  interface port
-      - 9081:80
-      # SMTP server port
-      - 9025:25
 volumes:
   data:
 

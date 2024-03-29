@@ -28,7 +28,6 @@ public class User  implements UserDetails , Serializable {
     private boolean actived ;
     // Unidirectional
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id")
     private  Role role;
 
     @Override
